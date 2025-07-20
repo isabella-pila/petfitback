@@ -1,33 +1,18 @@
-# Use uma imagem base slim para manter o tamanho pequeno
 FROM python:3.13-slim
 
-# Defina variáveis de ambiente para Python
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+WORKDIR /app
 
-# Crie um usuário não-root para rodar a aplicação (boa prática de segurança)
-RUN adduser --disabled-password --gecos '' devuser
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Defina o diretório de trabalho dentro da home do novo usuário
-WORKDIR /home/devuser/app
-
-# Copie apenas o arquivo de dependências primeiro para aproveitar o cache do Docker
 COPY requirements.txt .
 
-# Instale as dependências
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 COPY . .
 
-# Mude o proprietário dos arquivos para o usuário não-root
-RUN chown -R devuser:devuser /home/devuser/app
+EXPOSE 8080
 
-# Mude para o usuário não-root
-USER devuser
+RUN chmod +x ./start.sh
 
-# Exponha a porta que a aplicação vai rodar. Render usa 10000.
-EXPOSE 10000
-
-# O COMANDO CORRETO PARA INICIAR O SERVIDOR EM PRODUÇÃO
-# Troque 'backend.main:app' se o seu arquivo ou variável FastAPI for diferente
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]
+CMD ["./start.sh"]
