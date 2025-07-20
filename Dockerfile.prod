@@ -17,9 +17,7 @@ COPY requirements.txt .
 # Instale as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copie o resto do código da sua aplicação
-# Assumindo que o Dockerfile está na raiz e seu código na pasta 'backend'
-COPY ./backend .
+COPY . .
 
 # Mude o proprietário dos arquivos para o usuário não-root
 RUN chown -R devuser:devuser /home/devuser/app
