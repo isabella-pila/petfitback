@@ -8,7 +8,7 @@ on:
       - main # CORREÇÃO: Alterado de 'master' para 'main'
 
 jobs:
-  # --- JOB 1: Rodar os testes ---
+
   test:
     runs-on: ubuntu-latest
     services:
