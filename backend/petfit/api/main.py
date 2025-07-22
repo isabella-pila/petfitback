@@ -20,7 +20,7 @@ app = FastAPI(
 origins = [
     "http://localhost:5174",
     "http://localhost:5173",  # Vite local
-    "https://pet-fit-gilecca04-gmailcoms-projects.vercel.app/",  # Produção
+    "https://pet-fit.vercel.app/",  # Produção
 ]
 
 app.add_middleware(
