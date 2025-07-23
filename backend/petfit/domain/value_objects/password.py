@@ -1,7 +1,9 @@
 import bcrypt # Você precisará instalar `pip install bcrypt`
 from pydantic import GetCoreSchemaHandler
 from pydantic_core import CoreSchema, core_schema
-from typing import Self
+from typing import TypeVar, Type
+Self = TypeVar("Self", bound="Password")
+
 
 class PasswordValidationError(Exception):
     pass
@@ -52,8 +54,8 @@ class Password:
     @classmethod
     def __get_pydantic_core_schema__(cls, source_type: type, handler: GetCoreSchemaHandler) -> CoreSchema:
         def validate_from_str(value: str) -> Self:
-            # Pydantic passa a string de entrada, validamos e criamos Password
-            return cls(value, hashed=False) # Garante que a validação e o hash ocorram
+             return cls(value, hashed=False)
+
 
         return core_schema.union_schema(
             [
