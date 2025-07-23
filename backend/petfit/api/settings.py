@@ -4,32 +4,22 @@ from typing import ClassVar
 
 
 class Settings(BaseSettings):
-    POSTGRES_USER: str
-    POSTGRES_PASSWORD: str
-    POSTGRES_DB: str
-    POSTGRES_PORT: int
-    POSTGRES_HOST: str
+    POSTGRES_USER: str = "petfituser"
+    POSTGRES_PASSWORD: str = "petfitpass"
+    POSTGRES_DB: str = "petfitdb"
+    POSTGRES_PORT: int = 5432
+    POSTGRES_HOST: str = "db"
 
-    DOCKER_ENV: int  # 1 para Docker, 0 fora
+    DOCKER_ENV: int = 0
 
-    DATABASE_URL: str  # asyncpg para FastAPI
-    DATABASE_URL_ALEMBIC: str  # psycopg2 para Alembic
-    DATABASE_URL_TEST: str
+    DATABASE_URL: str = "postgresql+asyncpg://petfituser:petfitpass@db:5432/petfitdb"
+    DATABASE_URL_ALEMBIC: str = "postgresql+psycopg2://petfituser:petfitpass@db:5432/petfitdb"
+    DATABASE_URL_TEST: str = "postgresql+asyncpg://test_user:test_password@db_test:5432/petfit_test"
 
-    # PGADMIN_DEFAULT_EMAIL: str
-    # PGADMIN_DEFAULT_PASSWORD: str
-    # PGADMIN_PORT: int
+    SECRET_KEY: str = "myjwtsecret"
+    ALGORITHM: str = "HS256"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
 
-    SECRET_KEY: str
-    ALGORITHM: str
-    ACCESS_TOKEN_EXPIRE_MINUTES: int
-
-    # env_file = ".env"
-    # extra = "forbid"
-    # model_config = {
-    #     "env_file": ".env",
-    #     "extra": "ignore"
-    # }
 
     model_config: ClassVar[SettingsConfigDict] = SettingsConfigDict(
         env_file=".env", extra="ignore"
