@@ -1,16 +1,14 @@
-# petfit/infra/models/user_model.py
 from __future__ import annotations
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from petfit.domain.entities.user import User
 from petfit.domain.value_objects.email_vo import Email
 from petfit.domain.value_objects.password import Password
+from petfit.infra.models.recipe_model import RecipeModel
 import uuid
 from petfit.infra.database import Base
-from petfit.infra.models.recipe_user_model import user_favorite_recipes_table # <--- MUDANÇA AQUI!
+from petfit.infra.models.recipe_user_model import user_favorite_recipes_table
 from typing import List
-
-
 
 class UserModel(Base):
     __tablename__ = "users"
@@ -20,15 +18,15 @@ class UserModel(Base):
     )
     name: Mapped[str] = mapped_column(sa.String, nullable=False)
     email: Mapped[str] = mapped_column(sa.String, unique=True, nullable=False)
-    password: Mapped[str] = mapped_column(sa.String, nullable=False) 
+    password: Mapped[str] = mapped_column(sa.String, nullable=False)
 
-    favorite_recipes: Mapped[List["RecipeModel"]] = relationship(
+    favorite_recipes: Mapped[List[RecipeModel]] = relationship(
         "RecipeModel",
         secondary=user_favorite_recipes_table,
         back_populates="favorite_of_users",
         lazy="selectin"
     )
-    
+
     @classmethod
     def from_entity(cls, entity: User) -> "UserModel":
         return cls(
