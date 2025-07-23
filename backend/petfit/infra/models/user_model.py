@@ -11,6 +11,8 @@ from petfit.infra.models.recipe_user_model import user_favorite_recipes_table # 
 from typing import List
 
 
+
+
 class UserModel(Base):
     __tablename__ = "users"
 
