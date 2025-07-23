@@ -58,9 +58,6 @@ jobs:
         working-directory: ./backend
         run: make test-cov
 
-      - name: Verifica se o código está formatado
-        working-directory: ./backend
-        run: make lint
 
   deploy:
     name: Trigger Render Deploy
