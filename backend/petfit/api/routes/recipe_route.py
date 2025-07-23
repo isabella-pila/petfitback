@@ -54,10 +54,10 @@ async def create_recipe(
         recipe_entity = Recipe(
             id=str(uuid.uuid4()),
             title=recipe_input.title,
-            ingredients=recipe_input.ingredients,
-            instructions=recipe_input.instructions,
+            ingredients=", ".join(recipe_input.ingredients),         
+            instructions="\n".join(recipe_input.instructions),       
             is_public=recipe_input.is_public
-        )
+            )
         
         created_recipe = await usecase.execute(recipe_entity)
         return RecipeOutput.from_entity(created_recipe)
@@ -241,12 +241,13 @@ async def update_recipe_endpoint(
         usecase = UpdateRecipeUseCase(recipe_repo)
         
         updated_recipe_entity = Recipe(
-            id=recipe_id, 
-            title=recipe_input.title,
-            ingredients=recipe_input.ingredients,
-            instructions=recipe_input.instructions,
-            is_public=recipe_input.is_public
-        )
+                id=recipe_id,
+                title=recipe_input.title,
+                ingredients=", ".join(recipe_input.ingredients),         
+                instructions="\n".join(recipe_input.instructions),       
+                is_public=recipe_input.is_public
+            )
+
         
         updated_recipe = await usecase.execute(updated_recipe_entity)
         if not updated_recipe:
